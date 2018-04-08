@@ -1,0 +1,64 @@
+server:
+  #端口号
+  port: 9001
+spring:
+  freemarker:
+    #模板缓存
+    cache: false
+    #模板内容类型
+    content-type: text/html
+    request-context-attribute: request
+    #模板文件扩展名，默认为.ftl
+    suffix: .html
+  #数据库配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/jmcms
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  #redis基础配置
+  redis:
+    database: 5
+    host: 127.0.0.1
+    port: 6379
+    # 连接超时时间 单位 ms（毫秒）
+    timeout: 3000
+
+
+mybatis:
+  #扫描mapper xml文件路径
+  mapper-locations: classpath:com/jiamoon/jmcms/modules/**/mapper/*Mapper.xml
+  #开启驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true
+  #自动扫描实体类,使得mapper xml中不需要写实体类完整路径、只需要写实体类类名
+  type-aliases-package: com.jiamoon.jmcms.modules
+mapper:
+  mappers: com.jiamoon.jmcms.common.dao.BaseMapper
+  not-empty: false
+  identity: MYSQL
+#pagehelper分页工具
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+#pagehelper分页:
+#  helper-dialect: mysql
+#  support-methods-arguments: true
+#  params: count=countSql
+#  reasonable: true
+#日志配置
+logging:
+  level:
+    com:
+      jiamoon:
+        jmcms: DEBUG
+#产品信息设置
+jmcms:
+  productName: 嘉梦科技信息化管理平台
+  copyrightYear: 2018
+  productVersion: jmcms V1.0.0
+  #后台路径
+  adminPath: /admin
