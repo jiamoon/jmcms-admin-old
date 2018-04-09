@@ -2,12 +2,12 @@ package com.jiamoon.jmcms.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.util.UUID;
 
 /**
  * 常用工具类
@@ -24,6 +24,7 @@ public class Tools {
 
     /**
      * 对象转xml,默认utf-8格式
+     *
      * @param object
      * @return xml字符串
      * @throws Exception
@@ -34,7 +35,8 @@ public class Tools {
 
     /**
      * 对象转xml
-     * @param object 需要转换的对象
+     *
+     * @param object   需要转换的对象
      * @param encoding 编码格式
      * @return xml字符串
      * @throws JAXBException
@@ -58,12 +60,13 @@ public class Tools {
 
     /**
      * xml字符串转Java对象
-     * @param xml xml字符串
+     *
+     * @param xml      xml字符串
      * @param clazz<T> Java对象类型
      * @return Java对象
      * @throws JAXBException
      */
-    public static <T> T converyToJavaBean(String xml, Class<T> clazz) throws JAXBException{
+    public static <T> T converyToJavaBean(String xml, Class<T> clazz) throws JAXBException {
         T t = null;
         try {
             JAXBContext context = JAXBContext.newInstance(clazz);
@@ -77,6 +80,7 @@ public class Tools {
 
     /**
      * 对象转json字符串
+     *
      * @param object 需要转换的对象
      * @return 转换后的json字符串
      * @throws IOException
@@ -105,7 +109,8 @@ public class Tools {
 
     /**
      * json转对象
-     * @param json 需要转换的json字符串
+     *
+     * @param json     需要转换的json字符串
      * @param clazz<T> 需要转换的对象类型
      * @return
      * @throws IOException
@@ -122,6 +127,7 @@ public class Tools {
 
     /**
      * 获得异常的详细信息
+     *
      * @param e 异常对象
      * @return
      */
@@ -135,5 +141,14 @@ public class Tools {
             e1.printStackTrace();
         }
         return info;
+    }
+
+    /**
+     * 生成一个uuid
+     *
+     * @return
+     */
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

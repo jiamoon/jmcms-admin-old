@@ -26,15 +26,14 @@ public class AjaxJson<T> implements Serializable {
     @Getter
     private String msg;
     /**
-     * 请求结果的错误代码
-     */
-    @Setter
-    @Getter
-    private String errorCode;
-    /**
      * 请求结果的额外数据
      */
     @Setter
     @Getter
     private T data;
+
+    public AjaxJson(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
 }

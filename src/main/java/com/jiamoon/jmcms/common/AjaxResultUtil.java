@@ -24,7 +24,6 @@ public class AjaxResultUtil {
         AjaxJson ajaxJson = new AjaxJson();
         ajaxJson.setCode(200);
         ajaxJson.setMsg(msg);
-        ajaxJson.setErrorCode("0");
         ajaxJson.setData(data);
         return ajaxJson;
     }
@@ -49,7 +48,6 @@ public class AjaxResultUtil {
         AjaxJson ajaxJson = new AjaxJson();
         ajaxJson.setCode(code);
         ajaxJson.setMsg(msg);
-        ajaxJson.setErrorCode(errorCode);
         return ajaxJson;
     }
 
@@ -62,7 +60,6 @@ public class AjaxResultUtil {
         AjaxJson ajaxJson = new AjaxJson();
         ajaxJson.setCode(500);
         ajaxJson.setMsg("系统错误，请联系管理员！");
-        ajaxJson.setErrorCode(errorCode);
         return ajaxJson;
     }
 }
