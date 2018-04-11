@@ -1,4 +1,4 @@
-package com.jiamoon.jmcms.common;
+package com.jiamoon.jmcms.common.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
