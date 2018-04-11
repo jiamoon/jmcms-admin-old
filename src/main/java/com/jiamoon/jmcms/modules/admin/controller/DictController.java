@@ -31,10 +31,9 @@ public class DictController extends BaseController {
         return "admin/dictTypeForm";
     }
 
-    @ResponseBody
-    @RequestMapping("/test")
-    public Object test() {
-        return 1;
+    @RequestMapping(value = {"list", ""})
+    public String test() {
+        return "admin/dict/dictTypeList";
     }
 
     @ResponseBody
@@ -57,10 +56,9 @@ public class DictController extends BaseController {
                 return new AjaxJson(-1, "字典类型代码已存在！");
             } else {
                 int saveResult = dictTypeService.save(dictType);
-                if (saveResult>0){
+                if (saveResult > 0) {
                     return new AjaxJson(0, "字典类型保存成功！");
-                }
-                else {
+                } else {
                     return new AjaxJson(-1, "字典类型保存失败！");
                 }
             }
