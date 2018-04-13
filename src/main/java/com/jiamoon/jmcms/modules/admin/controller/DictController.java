@@ -2,6 +2,7 @@ package com.jiamoon.jmcms.modules.admin.controller;
 
 import com.jiamoon.jmcms.common.controller.BaseController;
 import com.jiamoon.jmcms.common.entity.AjaxJson;
+import com.jiamoon.jmcms.common.util.RedisUtil;
 import com.jiamoon.jmcms.modules.admin.dao.DictTypeMapper;
 import com.jiamoon.jmcms.modules.admin.entity.DictType;
 import com.jiamoon.jmcms.modules.admin.service.IDictTypeService;
@@ -24,6 +25,8 @@ public class DictController extends BaseController {
     DictTypeMapper dictTypeMapper;
     @Autowired
     IDictTypeService dictTypeService;
+    @Autowired
+    RedisUtil redisUtil;
 
 
     @RequestMapping("/dictTypeForm")
@@ -32,7 +35,7 @@ public class DictController extends BaseController {
     }
 
     @RequestMapping(value = {"list", ""})
-    public String test() {
+    public String list() {
         return "admin/dict/dictTypeList";
     }
 
@@ -63,5 +66,19 @@ public class DictController extends BaseController {
                 }
             }
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/t1")
+    public Object test1(){
+        redisUtil.set("test","哈哈哈哈或");
+        return "设置成功";
+    }
+    @ResponseBody
+    @RequestMapping("/t2")
+    public Object test2(){
+        String test = redisUtil.get("test");
+        System.out.println(test);
+        return test;
     }
 }

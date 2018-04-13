@@ -1,6 +1,6 @@
 package com.jiamoon.jmcms.common.service;
 
-import com.jiamoon.jmcms.common.Tools;
+import com.jiamoon.jmcms.common.util.Tools;
 import com.jiamoon.jmcms.common.dao.BaseMapper;
 import com.jiamoon.jmcms.common.entity.DataEntity;
 import org.apache.commons.lang3.StringUtils;
