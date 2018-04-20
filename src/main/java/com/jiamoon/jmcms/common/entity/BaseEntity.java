@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +22,7 @@ public class BaseEntity<T> implements Serializable {
     /**
      * 实体编号（唯一标识）
      */
+    @Id
     @Setter
     @Getter
     private String id;

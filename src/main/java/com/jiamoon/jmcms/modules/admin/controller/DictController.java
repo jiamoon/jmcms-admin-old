@@ -1,19 +1,13 @@
 package com.jiamoon.jmcms.modules.admin.controller;
 
 import com.jiamoon.jmcms.common.controller.BaseController;
-import com.jiamoon.jmcms.common.entity.AjaxJson;
-import com.jiamoon.jmcms.common.util.RedisUtil;
-import com.jiamoon.jmcms.modules.admin.dao.DictTypeMapper;
 import com.jiamoon.jmcms.modules.admin.entity.DictType;
 import com.jiamoon.jmcms.modules.admin.service.IDictTypeService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import tk.mybatis.mapper.entity.Example;
-
-import java.util.List;
 
 /**
  * 数据字典controller
@@ -22,63 +16,33 @@ import java.util.List;
 @Controller
 public class DictController extends BaseController {
     @Autowired
-    DictTypeMapper dictTypeMapper;
-    @Autowired
     IDictTypeService dictTypeService;
-    @Autowired
-    RedisUtil redisUtil;
 
-
-    @RequestMapping("/dictTypeForm")
-    public String dictTypeForm() {
-        return "admin/dictTypeForm";
+    /**
+     * 字典类别表单
+     *
+     * @param dictType
+     * @param model
+     * @return
+     */
+    @RequestMapping("/type/form")
+    public String typeForm(DictType dictType, Model model) {
+        return "admin/dict/type/form";
     }
 
-    @RequestMapping(value = {"list", ""})
+    /**
+     * 字典类别列表
+     *
+     * @return
+     */
+    @RequestMapping(value = {"", "/list"})
     public String list() {
-        return "admin/dict/dictTypeList";
+        return "admin/dict/list";
     }
 
     @ResponseBody
-    @RequestMapping("/save")
-    public Object save(DictType dictType) {
-        if (StringUtils.isBlank(dictType.getTypeName())) {
-            return new AjaxJson(-1, "字典类型名称不能为空！");
-        } else if (StringUtils.isBlank(dictType.getTypeCode())) {
-            return new AjaxJson(-1, "字典类型代码不能为空！");
-        } else {
-            //查询数据库中是否存在相同的字典类型代码
-            Example example = new Example(DictType.class);
-            example.createCriteria().andEqualTo("typeCode", dictType.getTypeCode());
-            if (StringUtils.isNotBlank(dictType.getId())) {
-                example.and().andNotEqualTo("id", dictType.getId());
-            }
-            List<DictType> dictTypeList = dictTypeMapper.selectByExample(example);
-            //字典类型代码重复
-            if (dictTypeList.size() > 0) {
-                return new AjaxJson(-1, "字典类型代码已存在！");
-            } else {
-                int saveResult = dictTypeService.save(dictType);
-                if (saveResult > 0) {
-                    return new AjaxJson(0, "字典类型保存成功！");
-                } else {
-                    return new AjaxJson(-1, "字典类型保存失败！");
-                }
-            }
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping("/t1")
-    public Object test1(){
-        redisUtil.set("test","哈哈哈哈或");
-        return "设置成功";
-    }
-    @ResponseBody
-    @RequestMapping("/t2")
-    public Object test2(){
-        String test = redisUtil.get("test");
-        System.out.println(test);
-        return test;
+    @RequestMapping("/type/save")
+    public void saveDictType(DictType dictType) {
+        dictTypeService.save(dictType);
     }
 }

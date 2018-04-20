@@ -1,6 +1,7 @@
 server:
   #端口号
   port: 9001
+  #context-path: /jmcms
 spring:
   freemarker:
     #模板缓存

@@ -10,8 +10,8 @@ public class CustomControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public  Object test(Exception e){
+    public Object test(Exception e) {
         e.printStackTrace();
-        return "错误";
+        return "错误\n" + e.getMessage();
     }
 }

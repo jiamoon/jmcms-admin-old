@@ -22,6 +22,7 @@ $(function () {
         }
     });
     jmcms = {
+        adminPath: "/admin",
         /**
          * 普通信息弹窗
          * @param msg
@@ -85,6 +86,12 @@ $(function () {
                 });
             }
         },
+        /**
+         * Loading加载提示
+         * @param msg
+         * @param icon
+         * @returns {*|void}
+         */
         loading: function (msg, icon) {
             if (!msg) {
                 msg = "正在提交，请稍等。。。";
@@ -95,6 +102,69 @@ $(function () {
                 time: 999999999//设置超长时间
             });
             return index;
+        },
+        /**
+         * 打开浏览对话框
+         * @param title
+         * @param url
+         * @param width
+         * @param height
+         */
+        openDialogView: function (title, url, width, height) {
+            width = width || "70%";
+            height = height || "80%";
+            var auto = true;//是否使用响应式，使用百分比时，应设置为false
+            if (width.indexOf("%") >= 0 || height.indexOf("%") >= 0) {
+                auto = false;
+            }
+            top.layer.open({
+                type: 2,
+                area: [width, height],
+                title: title,
+                auto: auto,
+                //maxmin: true, //开启最大化最小化按钮
+                content: url,
+                btn: ["关闭"],
+                btnAlign: "c",
+                cancel: function (index) {
+                }
+            });
+        },
+        /**
+         * 打开编辑对话框
+         * @param title
+         * @param url
+         * @param width
+         * @param height
+         */
+        openDialogEdit: function (title, url, width, height, saveCallback) {
+            width = width || "70%";
+            height = height || "80%";
+            var auto = true;//是否使用响应式，使用百分比时，应设置为false
+            if (width.indexOf("%") >= 0 || height.indexOf("%") >= 0) {
+                auto = false;
+            }
+            top.layer.open({
+                type: 2,
+                area: [width, height],
+                title: title,
+                auto: auto,
+                //maxmin: true, //开启最大化最小化按钮
+                content: url,
+                btn: ["保存", "关闭"],
+                btnAlign: "c",
+                yes: function (index, layero) {
+                    var iframeWindow = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    if (iframeWindow.contentWindow.doSubmit != undefined) {
+                        iframeWindow.contentWindow.doSubmit(index,saveCallback);
+                    }
+                    else{
+                        top.layer.close(index);
+                    }
+                },
+                cancel: function (index) {
+                }
+            });
         }
     };
 });
