@@ -7,6 +7,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,6 +23,19 @@ public class Tools {
      * 用于处理json字符串的静态对象
      */
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * 返回BootstrapTable需要的数据
+     * @param list
+     * @param total
+     * @return
+     */
+    public static HashMap<String, Object> getBootstrapTableData(Object list, long total) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("rows", list);
+        map.put("total", total);
+        return map;
+    }
 
     /**
      * 对象转xml,默认utf-8格式

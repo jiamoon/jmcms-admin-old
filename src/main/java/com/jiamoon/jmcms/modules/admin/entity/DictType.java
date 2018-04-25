@@ -31,5 +31,5 @@ public class DictType extends DataEntity<DictType> {
     /**
      * 状态(1、为正常，0为禁用)
      */
-    private int status=1;
+    private int status = 1;
 }
