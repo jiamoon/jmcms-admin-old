@@ -19,10 +19,29 @@ $(function () {
             else if (XMLHttpRequest.status == 403) {
                 jmcms.error("您没有权限访问！");
             }
+            else if (XMLHttpRequest.status == 401) {
+                jmcms.error("您未登陆！");
+            }
         }
     });
     jmcms = {
         adminPath: "/admin",
+        ajax: function (options, success, complete) {
+            options.success = function (data) {
+                if (typeof data === "object" && data.code != 0) {
+                    jmcms.error(data.msg);
+                }
+                else {
+                    success(data);
+                }
+            };
+            options.complete = function (XMLHttpRequest, textStatus) {
+                setTimeout(function () {
+                    complete(XMLHttpRequest, textStatus);
+                }, 2000);
+            };
+            $.ajax(options);
+        },
         /**
          * 普通信息弹窗
          * @param msg
@@ -43,9 +62,15 @@ $(function () {
          * 成功弹窗
          * @param msg
          */
-        success: function (msg, icon) {
+        success: function (msg, icon, callback) {
+            if (typeof icon === "function"){
+                callback = icon;
+                icon = 1;
+            }
             top.layer.msg(msg, {
                 icon: icon == null ? 1 : icon
+            }, function () {
+                callback();
             });
         },
         /**
@@ -156,9 +181,9 @@ $(function () {
                 yes: function (index, layero) {
                     var iframeWindow = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                     if (iframeWindow.contentWindow.doSubmit != undefined) {
-                        iframeWindow.contentWindow.doSubmit(index,saveCallback);
+                        iframeWindow.contentWindow.doSubmit(index, saveCallback);
                     }
-                    else{
+                    else {
                         top.layer.close(index);
                     }
                 },

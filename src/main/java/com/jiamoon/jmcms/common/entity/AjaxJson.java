@@ -36,4 +36,13 @@ public class AjaxJson<T> implements Serializable {
         this.code = code;
         this.msg = msg;
     }
+
+    /**
+     * 设置错误信息
+     * @param apiCode
+     */
+    public void setError(IApiCode apiCode) {
+        code = apiCode.getCode();
+        msg = apiCode.getMsg();
+    }
 }
