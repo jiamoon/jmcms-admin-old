@@ -1,5 +1,6 @@
 package com.jiamoon.jmcms.common.entity;
 
+import com.jiamoon.jmcms.common.constants.IApiCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

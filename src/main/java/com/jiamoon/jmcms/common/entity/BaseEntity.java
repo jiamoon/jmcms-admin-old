@@ -47,8 +47,7 @@ public class BaseEntity<T> implements Serializable {
      */
     @Setter
     @Getter
-
-    private int delFlag;
+    private Integer delFlag;
     /**
      * 备注
      */
