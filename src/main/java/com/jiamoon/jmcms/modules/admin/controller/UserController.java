@@ -21,6 +21,6 @@ public class UserController {
     public Object test(@RequestHeader("Host") String host, HttpServletRequest request) {
         User user = new User();
         user.setUsername("admin");
-        return request.getCookies();
+        return userService.select(new User());
     }
 }

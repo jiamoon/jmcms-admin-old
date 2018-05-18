@@ -23,7 +23,23 @@ public class LoginFormAuthenticationFilter extends FormAuthenticationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        return super.onAccessDenied(request, response);
+        System.out.println("onAccessDenied:" + ((HttpServletRequest) request).getRequestURI());
+        //如果是登录请求，也就是当前访问的是登录界面
+        if (this.isLoginRequest(request, response)) {
+            System.out.println("我是登录页面请求");
+            if (this.isLoginSubmission(request, response)) {
+                System.out.println("登录界面执行登录！！！");
+                return this.executeLogin(request, response);
+            } else {
+                System.out.println("111");
+                return true;
+            }
+        } else {
+            System.out.println("未登录");
+            this.saveRequestAndRedirectToLogin(request, response);
+            return false;
+        }
+        //return super.onAccessDenied(request, response);
     }
 
     /**
@@ -40,7 +56,6 @@ public class LoginFormAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-
         if (!JmWebUtils.isAjax(request)) {// 不是ajax请求
             System.out.println("啊啊啊啊啊啊");
             issueSuccessRedirect(request, response);

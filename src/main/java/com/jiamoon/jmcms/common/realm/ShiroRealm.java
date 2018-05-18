@@ -9,6 +9,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
+import javax.annotation.PostConstruct;
+
 /**
  * shiro认证授权
  */
@@ -38,5 +40,13 @@ public class ShiroRealm extends AuthorizingRealm {
         String username = (String) token.getPrincipal();
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo("admin", "admin", getName());
         return simpleAuthenticationInfo;
+    }
+
+    /**
+     * 设定密码校验的Hash算法与迭代次数
+     */
+    @PostConstruct
+    public void initCredentialsMatcher() {
+        setCredentialsMatcher(new CustomCredentialsMatcher());
     }
 }

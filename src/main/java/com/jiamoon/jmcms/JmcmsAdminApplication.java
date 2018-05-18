@@ -15,7 +15,7 @@ import java.util.Map;
  * 启动类入口
  */
 @EnableAutoConfiguration
-@MapperScan("com.jiamoon.jmcms.modules")
+@MapperScan({"com.jiamoon.jmcms.modules","com.jiamoon.jmcms.common.service"})
 @SpringBootApplication
 public class JmcmsAdminApplication {
     @Value("${jmcms.adminPath}")
@@ -31,7 +31,7 @@ public class JmcmsAdminApplication {
             @Override
             public void run(String... strings) throws Exception {
                 //添加自定义变量
-                Map<String,Object> map = resolver.getAttributesMap();
+                Map<String, Object> map = resolver.getAttributesMap();
                 map.put("adminPath", adminPath);
             }
         };
