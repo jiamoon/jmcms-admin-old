@@ -1,6 +1,8 @@
 package com.jiamoon.jmcms.common.config;
 
 import com.jiamoon.jmcms.common.cache.RedisCacheManager;
+import com.jiamoon.jmcms.common.component.RedisManager;
+import com.jiamoon.jmcms.common.dao.RedisSessionDao;
 import com.jiamoon.jmcms.common.filter.LoginFormAuthenticationFilter;
 import com.jiamoon.jmcms.common.realm.ShiroRealm;
 import org.apache.shiro.mgt.SecurityManager;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,11 +30,24 @@ public class ShiroConfig {
     }
 
     @Bean
+    public RedisManager redisManager() {
+        return new RedisManager();
+    }
+
+    @Bean
+    public RedisSessionDao redisSessionDao() {
+        RedisSessionDao redisSessionDao = new RedisSessionDao();
+        redisSessionDao.setRedisManager(redisManager());
+        return redisSessionDao;
+    }
+
+    @Bean
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        //sessionManager.setSessionDAO(sessionDAO);
+        sessionManager.setSessionDAO(redisSessionDao());
         sessionManager.setGlobalSessionTimeout(1800);
         sessionManager.setCacheManager(redisCacheManager());
+        //sessionManager.setSessionValidationSchedulerEnabled(false);
         return sessionManager;
     }
 
