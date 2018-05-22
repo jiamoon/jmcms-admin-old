@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta charset="UTF-8">
-    <title>登录界面</title>
+    <title>后台首页</title>
     <link href="${request.contextPath}/resources/plugins/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="${request.contextPath}/resources/plugins/hplus/css/animate.css" rel="stylesheet">
@@ -20,7 +20,31 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-12">
-            登录成功<br><a href="${request.contextPath}${adminPath}/logout">退出</a>
+            登录成功
+            <br><a href="${request.contextPath}${adminPath}/logout">退出</a>
+            <br>
+            <div>
+                <div>
+                    sessionId:${sessionId}
+                </div>
+                <div>
+                    用户名:${username}
+                </div>
+                <div>
+                    在线用户列表
+                    <#list session as userList>
+                        <div>
+                            登录IP：${session.getHost()}
+                        </div>
+                        <div>
+                            登录用户：
+                        </div>
+                        <div>
+                            最后操作日期：${session.getLastAccessTime()}
+                        </div>
+                    </#list>
+                </div>
+            </div>
         </div>
     </div>
 </div>

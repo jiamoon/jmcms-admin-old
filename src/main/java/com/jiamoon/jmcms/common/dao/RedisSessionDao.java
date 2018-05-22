@@ -1,14 +1,14 @@
 package com.jiamoon.jmcms.common.dao;
 
 import com.jiamoon.jmcms.common.component.RedisManager;
-import com.jiamoon.jmcms.common.util.SerializerUtil;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,11 +20,11 @@ public class RedisSessionDao extends AbstractSessionDAO {
     /**
      * The Redis key prefix for the sessions
      */
-    private static final String KEY_PREFIX = "shiro_redis_session:";
+    private static final String KEY_PREFIX = "shiro_:";
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        System.out.println("更新session:" + session.getId());
+        //System.out.println("更新session:" + session.getId());
         this.saveSession(session);
     }
 
@@ -38,14 +38,44 @@ public class RedisSessionDao extends AbstractSessionDAO {
         redisManager.del(KEY_PREFIX + session.getId());
     }
 
+    // 把session对象转化为byte保存到redis中
+    public byte[] sessionToByte(Session session) {
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        byte[] bytes = null;
+        try {
+            ObjectOutputStream oo = new ObjectOutputStream(bo);
+            oo.writeObject(session);
+            bytes = bo.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
+
+    // 把byte还原为session
+    public Session byteToSession(byte[] bytes) {
+        ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+        ObjectInputStream in;
+        SimpleSession session = null;
+        try {
+            in = new ObjectInputStream(bi);
+            session = (SimpleSession) in.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return session;
+    }
+
     @Override
     public Collection<Session> getActiveSessions() {
         Set<Session> sessions = new HashSet<Session>();
         Set<byte[]> keys = redisManager.keys(KEY_PREFIX + "*");
         if (keys != null && keys.size() > 0) {
             for (byte[] key : keys) {
-                Session s = (Session) SerializerUtil.deserialize(redisManager.get(SerializerUtil.deserialize(key)));
-                sessions.add(s);
+                //Session s = (Session) SerializerUtil.deserialize(redisManager.get(SerializerUtil.deserialize(key)));
+                sessions.add(byteToSession(redisManager.get(new String(key))));
             }
         }
         return sessions;
@@ -66,8 +96,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
             logger.error("session id is null");
             return null;
         }
-
-        Session session = (Session) redisManager.get(KEY_PREFIX + sessionId);
+        Session session = byteToSession(redisManager.get(KEY_PREFIX + sessionId));
         System.out.println("读取session:" + sessionId);
         return session;
     }
@@ -80,8 +109,8 @@ public class RedisSessionDao extends AbstractSessionDAO {
         //设置过期时间
         long expireTime = 1800000l;
         session.setTimeout(expireTime);
-        System.out.println("保存session:" + session.getId());
-        redisManager.setEx(KEY_PREFIX + session.getId(), session, expireTime);
+        //System.out.println("保存session:" + session.getId());
+        redisManager.setEx(KEY_PREFIX + session.getId(), sessionToByte(session), expireTime);
     }
 
     public void setRedisManager(RedisManager redisManager) {

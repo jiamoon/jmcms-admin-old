@@ -5,7 +5,9 @@ import com.jiamoon.jmcms.common.component.RedisManager;
 import com.jiamoon.jmcms.common.dao.RedisSessionDao;
 import com.jiamoon.jmcms.common.filter.LoginFormAuthenticationFilter;
 import com.jiamoon.jmcms.common.realm.ShiroRealm;
+import com.jiamoon.jmcms.common.shiro.DefaultHeaderSessionManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -38,12 +40,12 @@ public class ShiroConfig {
     public RedisSessionDao redisSessionDao() {
         RedisSessionDao redisSessionDao = new RedisSessionDao();
         redisSessionDao.setRedisManager(redisManager());
-        return redisSessionDao;
+        return redisSessionDao;//
     }
 
     @Bean
     public SessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        DefaultWebSessionManager sessionManager = new DefaultHeaderSessionManager();
         sessionManager.setSessionDAO(redisSessionDao());
         sessionManager.setGlobalSessionTimeout(1800);
         sessionManager.setCacheManager(redisCacheManager());
