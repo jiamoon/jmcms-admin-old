@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta charset="UTF-8">
-    <title>登录界面</title>
+    <title>后台首页</title>
     <link href="${request.contextPath}/resources/plugins/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="${request.contextPath}/resources/plugins/hplus/css/animate.css" rel="stylesheet">
@@ -20,16 +20,31 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-12">
-            <h1>${id}</h1>
-            <form id="loginForm" action="" method="post">
+            登录成功
+            <br><a href="${request.contextPath}${adminPath}/logout">退出</a>
+            <br>
+            <div>
                 <div>
-                    用户名：<input type="text" name="username" value="admin" />
+                    sessionId:${sessionId}
                 </div>
                 <div>
-                    用户名：<input type="text" name="password" value="admin" />
+                    用户名:${username}
                 </div>
-                <button type="button" id="loginBtn">登录</button>
-            </form>
+                <div>
+                    在线用户列表
+                    <!--<#list session as userList>-->
+                        <!--<div>-->
+                            <!--登录IP：${session.getHost()}-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--登录用户：${session.getAttribute(DefaultWebContext.PRINCIPALS_SESSION_KEY)}-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--最后操作日期：${session.getLastAccessTime()}-->
+                        <!--</div>-->
+                    <!--</#list>-->
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -39,18 +54,6 @@
 <script src="${request.contextPath}/resources/js/jmcms.js?v=1.0"></script>
 <script>
     $(function () {
-        $("#loginBtn").click(function () {
-            $("#loginForm").submit();
-            // $.ajax({
-            //     url: adminPath + "/login",
-            //     type: "post",
-            //     data: $("#loginForm").serialize(),
-            //     dataType: "text",
-            //     success: function (data) {
-            //         alert(data);
-            //     }
-            // });
-        });
     });
 </script>
 </body>

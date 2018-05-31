@@ -1,8 +1,12 @@
 server:
   #端口号
-  port: 9001
+  port: 8001
   #context-path: /jmcms
 spring:
+#  cache:
+#    type: ehcache
+#    ehcache:
+#      config: ehcache.xml
   freemarker:
     #模板缓存
     cache: false

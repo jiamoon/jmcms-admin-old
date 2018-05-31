@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 /**
  * 启动类入口
  */
+@EnableCaching
 @EnableAutoConfiguration
 @MapperScan({"com.jiamoon.jmcms.modules","com.jiamoon.jmcms.common.service"})
 @SpringBootApplication

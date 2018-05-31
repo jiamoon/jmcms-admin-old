@@ -7,10 +7,10 @@
     <meta name="keywords" content="">
     <meta charset="UTF-8">
     <title>后台首页</title>
-    <link href="${request.contextPath}/resources/plugins/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="${request.contextPath}/resources/plugins/hplus/css/animate.css" rel="stylesheet">
-    <link href="${request.contextPath}/resources/plugins/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <!--<link href="${request.contextPath}/resources/plugins/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">-->
+    <!--<link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">-->
+    <!--<link href="${request.contextPath}/resources/plugins/hplus/css/animate.css" rel="stylesheet">-->
+    <!--<link href="${request.contextPath}/resources/plugins/hplus/css/style.css?v=4.1.0" rel="stylesheet">-->
     <script type="text/javascript">
         var rootPath = "${request.contextPath}";
         var adminPath = rootPath + "${adminPath}";
@@ -23,7 +23,12 @@
             登录成功
             <br><a href="${request.contextPath}${adminPath}/logout">退出</a>
             <br>
+            <button type="button" id="deleteBtn">删除全部session</button>
+            <br>
             <div>
+                <div>
+                    超时:${timeout}
+                </div>
                 <div>
                     sessionId:${sessionId}
                 </div>
@@ -31,18 +36,6 @@
                     用户名:${username}
                 </div>
                 <div>
-                    在线用户列表
-                    <#list session as userList>
-                        <div>
-                            登录IP：${session.getHost()}
-                        </div>
-                        <div>
-                            登录用户：
-                        </div>
-                        <div>
-                            最后操作日期：${session.getLastAccessTime()}
-                        </div>
-                    </#list>
                 </div>
             </div>
         </div>
@@ -50,10 +43,20 @@
 </div>
 <!-- 全局js -->
 <script src="${request.contextPath}/resources/plugins/hplus/js/jquery.min.js?v=2.1.4"></script>
-<script src="${request.contextPath}/resources/plugins/hplus/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="${request.contextPath}/resources/js/jmcms.js?v=1.0"></script>
-<script>
+<!--<script src="${request.contextPath}/resources/plugins/hplus/js/bootstrap.min.js?v=3.3.6"></script>-->
+<!--<script src="${request.contextPath}/resources/js/jmcms.js?v=1.0"></script>-->
+<script type="text/javascript">
     $(function () {
+        $("#deleteBtn").click(function () {
+            $.ajax({
+                url: adminPath + "/delete",
+                type: "post",
+                dataType: "text",
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
     });
 </script>
 </body>
