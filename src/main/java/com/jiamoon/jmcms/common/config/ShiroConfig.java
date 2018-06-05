@@ -1,9 +1,12 @@
 package com.jiamoon.jmcms.common.config;
 
+import com.jiamoon.jmcms.common.dao.RedisSessionDao;
 import com.jiamoon.jmcms.common.realm.AdminRealm;
-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,12 +16,17 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
     @Bean
+    public RedisSessionDao redisSessionDao() {
+        return new RedisSessionDao();
+    }
+
+    @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         System.out.println("ShiroConfiguration.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
         //拦截器.
-        Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/api/**", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
@@ -38,9 +46,20 @@ public class ShiroConfig {
     }
 
     @Bean
-    public AdminRealm adminRealm(){
+    public AdminRealm adminRealm() {
         AdminRealm adminRealm = new AdminRealm();
         return adminRealm;
+    }
+
+
+    @Bean
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.getSessionIdCookie().setName("jmcms_session");
+        sessionManager.getSessionIdCookie().setMaxAge(5 * 365 * 24 * 60 * 60);
+        sessionManager.setSessionDAO(redisSessionDao());
+        //sessionManager.setDeleteInvalidSessions(true);// 删除过期的session
+        return sessionManager;
     }
 
 
@@ -48,6 +67,7 @@ public class ShiroConfig {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(adminRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 }

@@ -33,7 +33,7 @@ public class AdminRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户的输入的账号.
         String username = (String) token.getPrincipal();
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo("admin", "admin", getName());
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(username, username, getName());
         return simpleAuthenticationInfo;
     }
 }
