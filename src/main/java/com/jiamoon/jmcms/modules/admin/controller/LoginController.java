@@ -1,10 +1,14 @@
 package com.jiamoon.jmcms.modules.admin.controller;
 
 import com.jiamoon.jmcms.common.controller.BaseController;
+import com.jiamoon.jmcms.common.dao.RedisDao;
+import com.jiamoon.jmcms.common.dao.RedisSessionDao;
+import com.jiamoon.jmcms.common.util.DateUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,17 +16,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+
+import static com.jiamoon.jmcms.common.dao.RedisSessionDao.SHIRO_REDIS_SESSION_PRE;
 
 @Controller
 @RequestMapping("${jmcms.adminPath}")
 public class LoginController extends BaseController {
+    @Autowired
+    RedisSessionDao redisSessionDao;
+    @Autowired
+    RedisDao redisDao;
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("sessionId", 1);
-        model.addAttribute("username", 1);
-        model.addAttribute("timeout", 1);
-        model.addAttribute("userList", 1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Subject subject = SecurityUtils.getSubject();
+        model.addAttribute("sessionId", subject.getSession().getId());
+        model.addAttribute("username", subject.getPrincipal());
+        model.addAttribute("timeout", subject.getSession().getTimeout());
+        model.addAttribute("timeoutFormat", DateUtil.formatMsDate(subject.getSession().getTimeout()));
+        model.addAttribute("start", dateFormat.format(subject.getSession().getStartTimestamp()));
+        model.addAttribute("last", dateFormat.format(subject.getSession().getLastAccessTime()));
+        model.addAttribute("password", subject.getPrincipals());
+        model.addAttribute("userList", redisSessionDao.readSession(subject.getSession().getId()).getTimeout());
+        long redisExpire = redisDao.getRedisTemplate().getExpire(SHIRO_REDIS_SESSION_PRE + subject.getSession().getId());
+        model.addAttribute("redis", DateUtil.formatMsDate(redisExpire * 1000));
         return "/admin/index";
     }
 

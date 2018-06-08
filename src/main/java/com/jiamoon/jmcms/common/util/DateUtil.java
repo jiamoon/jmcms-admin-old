@@ -8,6 +8,25 @@ import java.util.Date;
  */
 public class DateUtil {
     /**
+     * 毫秒格式化显示
+     *
+     * @param time
+     * @return
+     */
+    public static String formatMsDate(long time) {
+        if (time < 1000) {
+            return (float) time / 1000 + "毫秒";
+        } else if (time < 1000 * 60) {
+            return time / 1000 + "秒";
+        } else if (time < 1000 * 60 * 60) {
+            return time / 1000 / 60 + "分钟";
+        } else if (time < 1000 * 60 * 60 * 24) {
+            return time / 1000 / 60 / 60 + "小时";
+        }
+        return time / 1000 / 60 / 60 / 24 + "天";
+    }
+
+    /**
      * 格式化指定时间
      *
      * @param date    需要格式化的时间

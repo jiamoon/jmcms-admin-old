@@ -1,5 +1,8 @@
 package com.jiamoon.jmcms.common.dao;
 
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -52,9 +55,13 @@ public interface RedisDao {
 
     boolean exist(final String key);
 
-    boolean set(final String key,final byte[] value);
+    boolean set(final String key, final byte[] value);
 
     boolean flushDB();
 
     long dbSize();
+
+    RedisTemplate<String, Serializable> getRedisTemplate();
+
+    void setRedisTemplate(RedisTemplate<String, Serializable> redisTemplate);
 }

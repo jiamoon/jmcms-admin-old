@@ -2,6 +2,7 @@ package com.jiamoon.jmcms.common.config;
 
 import com.jiamoon.jmcms.common.dao.RedisSessionDao;
 import com.jiamoon.jmcms.common.realm.AdminRealm;
+import com.jiamoon.jmcms.common.session.ShiroSessionManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -54,7 +55,7 @@ public class ShiroConfig {
 
     @Bean
     public SessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        ShiroSessionManager sessionManager = new ShiroSessionManager();
         sessionManager.getSessionIdCookie().setName("jmcms_session");
         sessionManager.getSessionIdCookie().setMaxAge(5 * 365 * 24 * 60 * 60);
         sessionManager.setSessionDAO(redisSessionDao());

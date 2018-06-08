@@ -20,7 +20,7 @@ import java.util.Set;
 public class RedisDaoImpl implements RedisDao {
 
     @Resource
-    protected RedisTemplate<String, Serializable> redisTemplate;
+    private RedisTemplate<String, Serializable> redisTemplate;
 
     /**
      * 设置redisTemplate

@@ -1,5 +1,6 @@
 package com.jiamoon.jmcms.common.dao;
 
+import com.jiamoon.jmcms.common.util.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -8,8 +9,11 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.SerializationUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
@@ -17,12 +21,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RedisSessionDao extends AbstractSessionDAO {
-    private static Logger logger = LoggerFactory.getLogger(RedisSessionDao.class);
-    String UID_PRE = "uuid:";
-    String SHIRO_REDIS_SESSION_PRE = "jmcms_session:";
-    String SHIRO_SESSION_PRE = "online_session:";
-    //单位：毫秒
-    private long expire = 24 * 60 * 60 * 1000;
+    public static Logger logger = LoggerFactory.getLogger(RedisSessionDao.class);
+    public static String UID_PRE = "uuid:";
+    public static String SHIRO_REDIS_SESSION_PRE = "jmcms_session:";
+    public static String SHIRO_SESSION_PRE = "online_session:";
+    //单位：秒
+    private long expire = 30 * 24 * 60 * 60L;
 
     @Resource
     private RedisDao redisDao;
@@ -41,8 +45,15 @@ public class RedisSessionDao extends AbstractSessionDAO {
             logger.error("session id is null");
             return null;
         }
-
-        logger.debug("Read Redis.SessionId=" + new String(getKey(SHIRO_REDIS_SESSION_PRE, sessionId.toString())));
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if (null != request) {
+            String uri = request.getServletPath();
+            // 如果是静态文件，则不获取SESSION
+            if (ServletUtils.isStaticFile(uri)) {
+                return null;
+            }
+        }
+        logger.debug("读取Read Redis.SessionId=" + getKey(SHIRO_REDIS_SESSION_PRE, sessionId.toString()));
 
         Session session = (Session) SerializationUtils.deserialize(redisDao.getByte(getKey(SHIRO_REDIS_SESSION_PRE, sessionId.toString())));
         return session;
@@ -60,8 +71,9 @@ public class RedisSessionDao extends AbstractSessionDAO {
             logger.error("session or session id is null");
             return;
         }
-        session.setTimeout(expire);
-        long timeout = expire / 1000;
+        //毫秒
+        session.setTimeout(expire * 1000);
+        long timeout = expire;
         //保存用户会话
         redisDao.add(this.getKey(SHIRO_REDIS_SESSION_PRE, session.getId().toString()), timeout, SerializationUtils.serialize(session));
         //获取用户id
