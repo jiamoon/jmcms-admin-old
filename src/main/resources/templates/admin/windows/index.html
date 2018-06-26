@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta charset="UTF-8">
+    <title>${productName}</title>
+    <link href="${request.contextPath}/resources/css/jmcms.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${request.contextPath}/resources/css/windows.css" rel="stylesheet">
+    <script type="text/javascript">
+        var rootPath = "${request.contextPath}";
+        var adminPath = rootPath + "${adminPath}";
+    </script>
+</head>
+<body>
+<div class="windows flexRoot">
+    <div class="desktop flexSize">
+    </div>
+    <div class="taskBar flexRoot" id="taskBar">
+        <!-- 开始菜单按钮 -->
+        <div class="startBtn" v-on:click="startBtnOnclick">
+            <i class="fa fa-windows"></i>
+        </div>
+        <!-- 开始菜单面板 -->
+        <div class="startMenuPanel" v-show="showMenu">
+
+        </div>
+        <!-- 打开的窗口列表 -->
+        <ul class="taskList flexSize flexRoot">
+            <li class="taskItem flexSize thisWindow">
+                角色管理1
+            </li>
+            <li class="taskItem flexSize">
+                系统设置2
+            </li>
+            <li class="taskItem flexSize">
+                系统设置3
+            </li>
+            <li class="taskItem flexSize">
+                系统设置4
+            </li>
+            <li class="taskItem flexSize">
+                系统设置5
+            </li>
+            <li class="taskItem flexSize">
+                系统设置6
+            </li>
+            <li class="taskItem flexSize">
+                系统设置7
+            </li>
+            <li class="taskItem flexSize">
+                系统设置8
+            </li>
+        </ul>
+        <!-- 右下角时间 -->
+        <div class="taskTimeRoot" id="showDate" style="display: none;">
+            <div class="hoverShowTime">
+                <p>
+                    {{year}}年{{month}}月{{day}}日
+                </p>
+                <p>
+                    星期{{dayOfWeek}}
+                </p>
+            </div>
+            <div class="taskTime">
+                <p v-cloak>
+                    {{hour}}:{{minutes}}:{{second}}
+                </p>
+                <p v-cloak>
+                    {{year}}-{{month}}-{{day}}
+                </p>
+            </div>
+        </div>
+        <!-- 右下角消息提示 -->
+        <div class="taskConsoleRoot">
+            <div class="taskConsole">
+                <i class="fa fa-comment-o"></i>
+            </div>
+            <div class="hoverTaskConsole">
+                没有新消息
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="${request.contextPath}/resources/plugins/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="${request.contextPath}/resources/plugins/vue/vue.js"></script>
+<script src="${request.contextPath}/resources/js/admin/windows/index.js"></script>
+<script src="${request.contextPath}/resources/js/jmcms.js?v=1.0"></script>
+<script type="text/javascript">
+</script>
+</body>
+</html>

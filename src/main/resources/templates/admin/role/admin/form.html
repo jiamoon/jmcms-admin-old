@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <link href="${request.contextPath}/resources/plugins/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/animate.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .form-horizontal .control-label {
+            padding-top: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        var rootPath = "${request.contextPath}";
+        var adminPath = rootPath + "${adminPath}";
+    </script>
+</head>
+<body>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+                <table class="table table-bordered table-striped" style="width: 80%;margin: 0 auto;">
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-2 ">
+                            <label class="control-label">角色名称：</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2 ">
+                            <label class="control-label">角色代码：</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2 ">
+                            <label class="control-label">角色描述：</label>
+                        </td>
+                        <td>
+                            <textarea class="form-control" rows="10"></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center;padding: 20px;">
+                    <button type="button" class="btn btn-w-m btn-primary" id="saveBtn">保存</button>
+                    <button type="button" class="btn btn-w-m btn-primary" id="saveBtn1">保存</button>
+                    <button type="button" class="btn btn-w-m btn-primary" id="saveBtn2">保存</button>
+                    <button type="button" class="btn btn-w-m btn-primary" style="margin-left: 20px;">返回</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="${request.contextPath}/resources/plugins/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="${request.contextPath}/resources/plugins/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${request.contextPath}/resources/plugins/vue/vue.js"></script>
+<script src="${request.contextPath}/resources/js/jmcms.js?v=1.0"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#saveBtn").click(function () {
+            $.ajax({
+                url: adminPath + "/role/admin/1",
+                dataType: "json",
+                success: function (data) {
+                    alert(data.msg);
+                }
+            });
+        });
+        $("#saveBtn1").click(function () {
+            $.ajax({
+                url: adminPath + "/role/admin/2",
+                dataType: "json",
+                success: function (data) {
+                    alert(data.msg);
+                }
+            });
+        });
+        $("#saveBtn2").click(function () {
+            $.ajax({
+                url: adminPath + "/role/admin/1",
+                dataType: "json",
+                success: function (data) {
+                    alert(data.msg);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

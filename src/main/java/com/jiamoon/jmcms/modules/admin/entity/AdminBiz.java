@@ -11,14 +11,14 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * 账号基础信息表
+ * 后台账号表
  */
-@Table(name = "sys_user")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends DataEntity<User> {
+@Table(name = "sys_admin")
+public class AdminBiz extends DataEntity<AdminBiz> {
     /**
      * 用户编码
      */
@@ -31,6 +31,10 @@ public class User extends DataEntity<User> {
      * 用户密码
      */
     private String password;
+    /**
+     * 加密盐
+     */
+    private String salt;
     /**
      * 用户头像
      */

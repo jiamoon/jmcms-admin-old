@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta charset="UTF-8">
+    <title>管理员列表</title>
+    <link href="${request.contextPath}/resources/plugins/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/animate.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/plugins/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <script type="text/javascript">
+        var rootPath = "${request.contextPath}";
+        var adminPath = rootPath + "${adminPath}";
+    </script>
+</head>
+<body>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-w-m btn-primary">btn-primary</button>
+            <div id="app-4">
+                <ul>
+                    <li v-for="todo in todos">
+                        {{ todo.msg }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="${request.contextPath}/resources/plugins/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="${request.contextPath}/resources/plugins/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${request.contextPath}/resources/plugins/vue/vue.js"></script>
+<script src="${request.contextPath}/resources/js/jmcms.js?v=1.0"></script>
+<script type="text/javascript">
+    $(function () {
+    });
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { msg: '学习 JavaScript' },
+                { msg: '学习 Vue' },
+                { msg: '整个牛项目' }
+            ]
+        }
+    });
+    app4.todos[0].msg = "哈哈哈";
+</script>
+</body>
+</html>

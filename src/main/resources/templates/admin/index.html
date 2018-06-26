@@ -20,12 +20,18 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-12">
-            登录成功
+            <@shiro.principal/>登录成功
+            <@shiro.hasPermission name="权限编码">
+            [有权限]
+            </@shiro.hasPermission>
             <br><a href="${request.contextPath}${adminPath}/logout">退出</a>
             <br>
             <button type="button" id="deleteBtn">删除全部session</button>
             <br>
             <div>
+                <div>
+                    IP:${ip}
+                </div>
                 <div>
                     session超时:${timeout}毫秒
                 </div>

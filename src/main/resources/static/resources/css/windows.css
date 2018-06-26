@@ -1,0 +1,184 @@
+li {
+    list-style: none;
+}
+
+.flexRoot {
+    display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box; /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox; /* 混合版本语法: IE 10 */
+    display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+    display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+}
+
+.flexSize {
+    -webkit-box-flex: var(--flexSize); /* OLD - iOS 6-, Safari 3.1-6 */
+    -moz-box-flex: var(--flexSize); /* OLD - Firefox 19- */
+    -webkit-flex: var(--flexSize); /* Chrome */
+    -ms-flex: var(--flexSize); /* IE 10 */
+    flex: var(--flexSize); /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+.windows {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/windows_10_bg.jpg");
+    background-size: 100% 100%;
+}
+
+.desktop {
+    --flexSize: 1;
+}
+
+.taskBar {
+    --taskBarHeight: 40px;
+    height: var(--taskBarHeight);
+    width: 100%;
+    background-color: #004275 !important;
+    --flexSize: 1;
+}
+
+/* 开始菜单按钮 */
+.startBtn {
+    width: 48px;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    flex: none;
+}
+
+.startBtn:hover {
+    color: #429CE3;
+    background-color: #195583;
+    cursor: pointer;
+}
+
+.startBtn i {
+    font-size: 18px;
+}
+
+/* 开始菜单面板 */
+.startMenuPanel {
+    width: 600px;
+    height: 500px;
+    background-color: #005A9E;
+    position: absolute;
+    bottom: var(--taskBarHeight);
+    /*display: none;*/
+}
+
+/* 底部打开的窗口列表 */
+.taskList {
+    height: var(--taskBarHeight);
+    color: #fff;
+    /*display: inline-block;*/
+}
+
+.taskList .taskItem {
+    --flexSize: 1;
+    max-width: 160px;
+    min-width: 160px;
+    cursor: default;
+}
+
+.taskList li.taskItem {
+    display: inline-block;
+    height: var(--taskBarHeight);
+    line-height: var(--taskBarHeight);
+    text-align: center;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 10px;
+    font-size: 12px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.taskList .taskItem:hover, .taskList .taskItem.thisWindow:hover {
+    background-color: #195583;
+}
+
+.taskList .taskItem.thisWindow {
+    background-color: #005A9E;
+}
+
+.taskList .taskItem + .taskItem {
+    margin-left: 5px;
+}
+
+/* 右下角时间显示 */
+.taskTimeRoot {
+    flex: none;
+    cursor: default;
+    position: relative;
+    --taskTimeWidth: 80px;
+    width: var(--taskTimeWidth);
+}
+
+.taskTime p {
+    padding-top: 3px;
+    margin: 0 5px;
+    line-height: calc(var(--taskBarHeight) / 2 - 4px);
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+}
+
+.hoverShowTime {
+    --hoverShowTimeWidth: 100px;
+    --hoverShowTimeHeight: 30px;
+    position: absolute;
+    z-index: 10;
+    background-color: #ffffff;
+    bottom: var(--taskBarHeight);
+    width: var(--hoverShowTimeWidth);
+    height: var(--hoverShowTimeHeight);
+    left: calc((var(--taskTimeWidth) - var(--hoverShowTimeWidth)) / 2 - 5px);
+    font-size: 12px;
+    color: #000;
+    padding: 5px 5px;
+    text-align: center;
+    display: none;
+}
+
+.taskTimeRoot:hover .hoverShowTime {
+    display: block;
+}
+
+.hoverShowTime p {
+    line-height: calc(var(--hoverShowTimeHeight) / 2);
+}
+
+/* 右下角通知按钮 */
+.taskConsoleRoot {
+    cursor: default;
+}
+
+.taskConsole {
+    width: 48px;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    flex: none;
+}
+
+.taskConsole:hover {
+    background-color: #195583;
+}
+
+.hoverTaskConsole {
+    position: absolute;
+    z-index: 10;
+    background-color: #ffffff;
+    font-size: 12px;
+    color: #000;
+    padding: 5px 5px;
+    text-align: center;
+    display: none;
+    right: 0;
+    bottom: var(--taskBarHeight);
+}
+
+.taskConsoleRoot:hover .hoverTaskConsole {
+    display: block;
+}

@@ -20,8 +20,16 @@ import java.util.Map;
 @MapperScan({"com.jiamoon.jmcms.modules","com.jiamoon.jmcms.common.service"})
 @SpringBootApplication
 public class JmcmsAdminApplication {
+    /**
+     * 后台根路径
+     */
     @Value("${jmcms.adminPath}")
     String adminPath;
+    /**
+     * 产品名称
+     */
+    @Value("${jmcms.productName}")
+    String productName;
 
     public static void main(String[] args) {
         SpringApplication.run(JmcmsAdminApplication.class, args);
@@ -35,6 +43,7 @@ public class JmcmsAdminApplication {
                 //添加自定义变量
                 Map<String, Object> map = resolver.getAttributesMap();
                 map.put("adminPath", adminPath);
+                map.put("productName", productName);
             }
         };
     }

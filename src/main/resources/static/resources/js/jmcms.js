@@ -4,6 +4,53 @@
  * @author 嘉梦科技
  */
 $(function () {
+    var ajax = $.ajax;
+    $.ajax = function (opt) {
+        //备份opt中error和success方法
+        var fn = {
+            success: function (data, textStatus, jqXHR) {
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        };
+        if (opt.success) {
+            fn.success = opt.success;
+        }
+        if (opt.error) {
+            fn.error = opt.error;
+        }
+        //扩展增强处理
+        var _opt = $.extend(opt, {
+            success: function (data, textStatus, jqXHR) {
+                //重写success事件'
+                if (data.code == 1) { //截获请求数据  如果code=10 页面跳转到登录界面
+                    alert("错误111");
+                    return;
+                }
+                fn.success(data, textStatus, jqXHR);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                fn.error(XMLHttpRequest, textStatus, errorThrown);
+            }
+        });
+        var def = ajax.call($, _opt);
+        // 兼容不支持异步回调的版本
+        if ('done' in def) {
+            var done = def.done;
+            def.done = function (func) {
+                function _done(data) {
+                    if (data.code == 1) {//截获请求数据  如果code=10 页面跳转到登录界面
+                        alert("错误222");
+                        return;
+                    }
+                    func(data);
+                }
+                done.call(def, _done);
+                return def;
+            };
+        }
+        return def;
+    };
     /**
      * 全局ajax设置
      */
@@ -63,7 +110,7 @@ $(function () {
          * @param msg
          */
         success: function (msg, icon, callback) {
-            if (typeof icon === "function"){
+            if (typeof icon === "function") {
                 callback = icon;
                 icon = 1;
             }

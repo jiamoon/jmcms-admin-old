@@ -4,6 +4,7 @@ import com.jiamoon.jmcms.common.controller.BaseController;
 import com.jiamoon.jmcms.common.dao.RedisDao;
 import com.jiamoon.jmcms.common.dao.RedisSessionDao;
 import com.jiamoon.jmcms.common.util.DateUtil;
+import com.jiamoon.jmcms.common.util.Tools;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -29,7 +30,7 @@ public class LoginController extends BaseController {
     RedisDao redisDao;
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index(Model model,HttpServletRequest request) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         Subject subject = SecurityUtils.getSubject();
         model.addAttribute("sessionId", subject.getSession().getId());
@@ -42,6 +43,7 @@ public class LoginController extends BaseController {
         model.addAttribute("userList", redisSessionDao.readSession(subject.getSession().getId()).getTimeout());
         long redisExpire = redisDao.getRedisTemplate().getExpire(SHIRO_REDIS_SESSION_PRE + subject.getSession().getId());
         model.addAttribute("redis", DateUtil.formatMsDate(redisExpire * 1000));
+        model.addAttribute("ip", Tools.getIpAddr(request));
         return "/admin/index";
     }
 
